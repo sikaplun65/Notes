@@ -1,8 +1,10 @@
 package com.sikaplun.gb.kotlin.notes.ui.adapter
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sikaplun.gb.kotlin.notes.databinding.ItemNoteBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
 
 class NoteAdapter(
@@ -17,9 +19,9 @@ class NoteAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(parent, clickListener)
+        val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NoteViewHolder(binding, clickListener)
     }
-
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.bind(getItem(position))

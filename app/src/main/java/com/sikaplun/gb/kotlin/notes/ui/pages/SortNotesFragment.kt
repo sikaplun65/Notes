@@ -12,7 +12,7 @@ import com.sikaplun.gb.kotlin.notes.databinding.FragmentSortNotesBinding
 
 class SortNotesFragment : Fragment() {
     private var notesList: Noteslist = NotesListImpl.getNotesList()
-    private var _binding: FragmentSortNotesBinding? = null
+    private lateinit var _binding: FragmentSortNotesBinding
     private val binding get() = _binding
 
 
@@ -24,22 +24,22 @@ class SortNotesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSortNotesBinding.inflate(inflater,container,false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.sortFromOldToNewNotesButton?.setOnClickListener {
+        binding.sortFromOldToNewNotesButton.setOnClickListener {
             notesList.sortFromOldToNewNotes()
             requireActivity().onBackPressed()
         }
-        binding?.sortFromNewToOldNotesButton?.setOnClickListener {
+        binding.sortFromNewToOldNotesButton.setOnClickListener {
                 notesList.sortFromNewToOldNotes()
                 requireActivity().onBackPressed()
             }
-        binding?.sort1ByModifiedDateButton?.setOnClickListener {
+        binding.sort1ByModifiedDateButton.setOnClickListener {
             notesList.sorByDateModifiedNotes()
             requireActivity().onBackPressed()
         }

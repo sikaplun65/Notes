@@ -1,24 +1,19 @@
 package com.sikaplun.gb.kotlin.notes.ui.adapter
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.sikaplun.gb.kotlin.notes.R
+import com.sikaplun.gb.kotlin.notes.databinding.ItemNoteBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteViewHolder(parent: ViewGroup, clickListener: NoteAdapter.InteractionListener) :
-    RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
-    ) {
-    private val createDateTextView = itemView.findViewById<TextView>(R.id.create_date_text_view)
-    private val modifiedDateTextView = itemView.findViewById<TextView>(R.id.modified_date_text_view)
-    private val titleTextView = itemView.findViewById<TextView>(R.id.title_text_view)
-    private val detailTextView = itemView.findViewById<TextView>(R.id.detail_text_view)
+class NoteViewHolder(binding: ItemNoteBinding, clickListener: NoteAdapter.InteractionListener) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    private val createDateTextView = binding.createDateTextView
+    private val modifiedDateTextView = binding.modifiedDateTextView
+    private val titleTextView = binding.titleTextView
+    private val detailTextView = binding.detailTextView
     private var note: NoteEntity? = null
 
     @SuppressLint("SimpleDateFormat")
@@ -43,8 +38,8 @@ class NoteViewHolder(parent: ViewGroup, clickListener: NoteAdapter.InteractionLi
     }
 
     init {
-        itemView.setOnClickListener { v: View? -> clickListener.OnItemShortClick(note) }
-        itemView.setOnLongClickListener { v: View? -> clickListener.OnItemLongClick(note) }
+        itemView.setOnClickListener { clickListener.OnItemShortClick(note) }
+        itemView.setOnLongClickListener { clickListener.OnItemLongClick(note) }
     }
 
 }
