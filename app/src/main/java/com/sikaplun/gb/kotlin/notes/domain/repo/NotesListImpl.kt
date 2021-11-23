@@ -1,9 +1,12 @@
 package com.sikaplun.gb.kotlin.notes.domain.repo
 
+import android.os.Parcelable
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
 import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
+import kotlinx.parcelize.Parcelize
 
-object NotesListImpl: Noteslist {
+@Parcelize
+object NotesListImpl: Noteslist,Parcelable {
 
     private val notesList: MutableList<NoteEntity> = mutableListOf()
 
