@@ -27,6 +27,9 @@
         android:id="@+id/detail_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:clickable="true"
+        android:focusable="true"
         android:textSize="@dimen/twenty_eight_sp"
         android:padding="@dimen/eight_dp"
         android:hint="@string/text_hint_detail_edit_text"/>

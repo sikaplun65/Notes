@@ -57,6 +57,8 @@ class NotesEditFragment : Fragment() {
             )
 
         setupListeners()
+
+        view.setOnLongClickListener { true }
     }
 
     private fun fillTextTitleAndTextDetail(note: NoteEntity) {
