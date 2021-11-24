@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="#DADADA"
         android:orientation="horizontal"
+        android:focusableInTouchMode="true"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -21,13 +22,45 @@
             android:layout_height="wrap_content"
             android:text="@string/text_text_view"
             android:textSize="@dimen/twenty_eight_sp"
-            android:layout_marginStart="@dimen/eight_dp"/>
+            android:layout_marginStart="@dimen/eight_dp" />
+
+
+        <LinearLayout
+            android:layout_width="@dimen/two_hundred_and_two_dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/four_dp"
+            android:layout_marginStart="@dimen/eight_dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="@dimen/one_hundred_eighty_dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_hint_search_edit_text"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textSize="@dimen/twelve_sp"
+                android:paddingStart="@dimen/eight_dp"
+                tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/search_edit_text_clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/white"
+                android:layout_marginLeft="@dimen/eight_dp"
+                android:src="@drawable/ic_baseline_close_24"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+
 
         <ImageButton
             android:id="@+id/new_note_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/two_hundred_and_forty"
+            android:layout_marginStart="@dimen/two_dp"
             android:src="@drawable/ic_baseline_note_add_24"
             android:contentDescription="@string/text_contentDescription" />
 

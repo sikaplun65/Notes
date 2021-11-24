@@ -1,13 +1,9 @@
 package com.sikaplun.gb.kotlin.notes.ui.main
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sikaplun.gb.kotlin.notes.R
 import com.sikaplun.gb.kotlin.notes.databinding.ActivityMainBinding
 import com.sikaplun.gb.kotlin.notes.ui.pages.NotesEditFragment.Companion.create
@@ -22,10 +18,10 @@ class MainActivity : AppCompatActivity(), NotesListFragment.Controller {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
         initNotesListFragment(savedInstanceState)
         initBottomNavigationMenu()
+
     }
 
     private fun initNotesListFragment(savedInstanceState: Bundle?) {
