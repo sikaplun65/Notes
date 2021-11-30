@@ -4,7 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -53,6 +58,7 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
         initializationAddNewNoteButton()
         initializationRecyclerView(view)
         registerForContextMenu(recyclerView)
+        searchNotes()
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -84,14 +90,33 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
             .show()
     }
 
-    inline fun View.snack(message: String, length: Int = Snackbar.LENGTH_LONG, f: Snackbar.() -> Unit) {
-        val snack = Snackbar.make(this, R.string.text_note_deleted, length)
-        snack.f()
-        snack.show()
-    }
-
     private fun initializationAddNewNoteButton() {
         binding.newNoteButton.setOnClickListener { controller?.startNotesCreateFragment() }
+    }
+
+    private fun searchNotes(){
+
+        val searchEditText = binding.searchEditText
+        val clearButton = binding.searchEditTextClearButton
+
+        clearButton.setOnClickListener{
+            searchEditText.text.clear()
+            applyFilter(searchEditText)
+        }
+
+        searchEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                clearButton.visibility = if (s?.isEmpty()!!) GONE else VISIBLE
+                applyFilter(searchEditText)
+            }
+        })
+    }
+
+    private fun applyFilter(str: EditText){
+        notesList.searchNotes(str.text.toString())
+        adapter.setData(notesList.getFoundNotesList())
     }
 
     private fun initializationRecyclerView(view: View) {

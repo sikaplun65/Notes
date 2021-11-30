@@ -4,10 +4,12 @@ import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
 
 interface Noteslist {
     fun getNotes():List<NoteEntity>
+    fun getFoundNotesList():List<NoteEntity>
     fun getNote(id: String?): NoteEntity?
     fun addNote(note: NoteEntity?)
     fun removeNote(note: NoteEntity?)
     fun sortFromOldToNewNotes()
     fun sortFromNewToOldNotes()
     fun sorByDateModifiedNotes()
+    fun searchNotes(str: String)
 }
