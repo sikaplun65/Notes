@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.sikaplun.gb.kotlin.notes.R
+import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.databinding.FragmentNotesListBinding
-import com.sikaplun.gb.kotlin.notes.domain.repo.NotesListImpl
-import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
+import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
 import com.sikaplun.gb.kotlin.notes.ui.adapter.NoteAdapter
-import java.lang.IllegalStateException
 
 class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
 
@@ -30,8 +30,10 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
     private var id: String? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: NoteAdapter
-    private var notesList: Noteslist = NotesListImpl.getNotesList()
     private lateinit var selectedNotesItem: NoteEntity
+
+    private val noteDb = App.getInstance().getNotesDb()
+    private var notesList: NotesListRoom = NoteListRoomImpl(noteDb.noteDao())
 
     private var _binding: FragmentNotesListBinding? = null
     private val binding get() = _binding!!
@@ -83,6 +85,7 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
             .setCancelable(false)
             .setPositiveButton(R.string.text_yes) { dialog: DialogInterface?, id: Int ->
                 notesList.removeNote(selectedNotesItem)
+                adapter.setData(notesList.getNotes())
                 adapter.notifyDataSetChanged()
                 Snackbar.make(requireView(), R.string.text_note_deleted , Snackbar.LENGTH_LONG).show()
             }
@@ -115,8 +118,7 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
     }
 
     private fun applyFilter(str: EditText){
-        notesList.searchNotes(str.text.toString())
-        adapter.setData(notesList.getFoundNotesList())
+        adapter.setData(notesList.searchNotes(str.text.toString()))
     }
 
     private fun initializationRecyclerView(view: View) {

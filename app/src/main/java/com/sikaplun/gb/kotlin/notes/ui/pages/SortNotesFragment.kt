@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.sikaplun.gb.kotlin.notes.R
+import com.sikaplun.gb.kotlin.notes.databinding.FragmentSortNotesBinding
 import com.sikaplun.gb.kotlin.notes.domain.repo.NotesListImpl
 import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
-import com.sikaplun.gb.kotlin.notes.databinding.FragmentSortNotesBinding
 
 class SortNotesFragment : Fragment() {
     private var notesList: Noteslist = NotesListImpl.getNotesList()
+
     private lateinit var _binding: FragmentSortNotesBinding
     private val binding get() = _binding
 

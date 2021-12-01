@@ -43,3 +43,4 @@ class NoteViewHolder(binding: ItemNoteBinding, clickListener: NoteAdapter.Intera
     }
 
 }
+

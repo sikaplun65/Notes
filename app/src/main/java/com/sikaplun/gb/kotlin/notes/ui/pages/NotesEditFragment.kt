@@ -10,16 +10,19 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.databinding.FragmentNotesEditBinding
-import com.sikaplun.gb.kotlin.notes.domain.repo.NotesListImpl
-import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
+import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
 
 class NotesEditFragment : Fragment() {
     private lateinit var titleEditText: EditText
     private lateinit var detailEditText: EditText
     private lateinit var saveButton: Button
-    private var notesList:Noteslist = NotesListImpl.getNotesList()
+    private val noteDb = App.getInstance().getNotesDb()
+    private var notesList: NotesListRoom = NoteListRoomImpl(noteDb.noteDao())
+
     private var noteId: String = ""
     private var tempTitle: String = ""
     private var tempDetail: String = ""
@@ -48,7 +51,7 @@ class NotesEditFragment : Fragment() {
         val args = this.arguments
         if (args != null && args.containsKey(ID_KEY)) {
             noteId = args.getString(ID_KEY).toString()
-            notesList.getNote(noteId)?.let { fillTextTitleAndTextDetail(it) }
+            notesList.getNote(noteId).let { fillTextTitleAndTextDetail(it) }
         }
 
         notesEditFragmentViewModel =
