@@ -38,7 +38,6 @@ class NoteEntity {
         generateId()
     }
 
-    // для тестов
     constructor(title: String, detail: String) {
         this.title = title
         this.detail = detail

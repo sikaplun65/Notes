@@ -9,8 +9,8 @@ interface NotesListRoom {
     fun addNote(note: NoteEntity)
     fun updateNote(noteId: String, noteTitle: String, noteDetail: String, date: Calendar)
     fun removeNote(note: NoteEntity)
-    fun sortFromOldToNewNotes()
-    fun sortFromNewToOldNotes()
-    fun sorByDateModifiedNotes()
+    fun sortFromOldToNewNotes():List<NoteEntity>
+    fun sortFromNewToOldNotes():List<NoteEntity>
+    fun sorByDateModifiedNotes():List<NoteEntity>
     fun searchNotes(str: String):List<NoteEntity>
 }

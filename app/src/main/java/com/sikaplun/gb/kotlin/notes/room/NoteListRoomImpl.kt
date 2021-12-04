@@ -5,13 +5,9 @@ import java.util.*
 
 class NoteListRoomImpl(private val noteDao: NoteDao) : NotesListRoom {
 
-    override fun getNotes(): List<NoteEntity> {
-        return noteDao.getNotes()
-    }
+    override fun getNotes(): List<NoteEntity> = noteDao.getNotes()
 
-    override fun getNote(id: String): NoteEntity {
-        return noteDao.getNote(id)
-    }
+    override fun getNote(id: String): NoteEntity = noteDao.getNote(id)
 
     override fun addNote(note: NoteEntity) {
         noteDao.addNote(note)
@@ -26,20 +22,12 @@ class NoteListRoomImpl(private val noteDao: NoteDao) : NotesListRoom {
         noteDao.removeNote(idForDelete)
     }
 
-    override fun sortFromOldToNewNotes() {
-        noteDao.sortFromOldToNewNotes()
-    }
+    override fun sortFromOldToNewNotes(): List<NoteEntity> = noteDao.sortFromOldToNewNotes()
 
-    override fun sortFromNewToOldNotes() {
-        noteDao.sortFromNewToOldNotes()
-    }
+    override fun sortFromNewToOldNotes(): List<NoteEntity> = noteDao.sortFromNewToOldNotes()
 
-    override fun sorByDateModifiedNotes() {
-        noteDao.sorByDateModifiedNotes()
-    }
+    override fun sorByDateModifiedNotes(): List<NoteEntity> = noteDao.sorByDateModifiedNotes()
 
-    override fun searchNotes(str: String):List<NoteEntity>  {
-        return noteDao.searchNotes(str)
-    }
+    override fun searchNotes(str: String):List<NoteEntity> =  noteDao.searchNotes(str)
 
 }

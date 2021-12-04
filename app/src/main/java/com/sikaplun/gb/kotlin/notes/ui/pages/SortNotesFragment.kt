@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.databinding.FragmentSortNotesBinding
-import com.sikaplun.gb.kotlin.notes.domain.repo.NotesListImpl
-import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
+import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
+import com.sikaplun.gb.kotlin.notes.ui.adapter.NoteAdapter
 
 class SortNotesFragment : Fragment() {
-    private var notesList: Noteslist = NotesListImpl.getNotesList()
+    private val noteDb = App.getInstance().getNotesDb()
+    private var notesList: NotesListRoom = NoteListRoomImpl(noteDb.noteDao())
 
     private lateinit var _binding: FragmentSortNotesBinding
     private val binding get() = _binding
@@ -36,9 +39,9 @@ class SortNotesFragment : Fragment() {
             requireActivity().onBackPressed()
         }
         binding.sortFromNewToOldNotesButton.setOnClickListener {
-                notesList.sortFromNewToOldNotes()
-                requireActivity().onBackPressed()
-            }
+            notesList.sortFromNewToOldNotes()
+            requireActivity().onBackPressed()
+        }
         binding.sort1ByModifiedDateButton.setOnClickListener {
             notesList.sorByDateModifiedNotes()
             requireActivity().onBackPressed()

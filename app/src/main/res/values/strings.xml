@@ -24,4 +24,12 @@
     <string name="text_contentDescription">TODO</string>
     <string name="text_note_deleted">Заметка удалена</string>
     <string name="text_hint_search_edit_text">Поиск</string>
+    <string name="permission_denied">Доступ запрещен</string>
+    <string name="permission_denied_forever_message">Вы навсегда отказали в разрешении. Вы можете изменить свое решение в настройках приложения. \n\nХотите открыть настройки приложения?</string>
+    <string name="open">Открыть</string>
+    <string name="permissions_denied_forever">В разрешениях отказано навсегда</string>
+    <string name="location_permission_granted">Доступ в геолокации разрешен\n\nдля отключения доступа перейдите\nв настройки телефона</string>
+    <string name="text_explanation_for_connection">Для сохранения координат при создании заметки\nнеобходимо подключить геолокацию\nХотите перейти в настройки\nи включить разрешение в ручную?\n</string>
+    <string name="text_warning">Предупреждение</string>
+    <string name="go_to">Перейти</string>
 </resources>

@@ -6,7 +6,11 @@ import java.util.*
 class DateConverters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Calendar? {
-        return value?.let { Calendar.getInstance() }
+        val date = Calendar.getInstance()
+        if (value != null) {
+            date.timeInMillis = value
+        }
+        return value?.let { date }
     }
 
     @TypeConverter
