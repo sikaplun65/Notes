@@ -2,6 +2,7 @@ package com.sikaplun.gb.kotlin.notes.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sikaplun.gb.kotlin.notes.R

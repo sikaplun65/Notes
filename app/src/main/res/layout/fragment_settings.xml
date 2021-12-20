@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/sixteen_dp"
     tools:context=".ui.pages.SettingsFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/geolocation_permission_request_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Настройки"
-        android:textSize="@dimen/twenty_eight_sp"/>
+        android:text="Получить разрешение на геолокацию"/>
+
 
 </FrameLayout>

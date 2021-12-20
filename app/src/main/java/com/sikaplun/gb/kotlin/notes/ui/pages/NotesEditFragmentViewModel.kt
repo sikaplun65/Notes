@@ -1,13 +1,16 @@
 package com.sikaplun.gb.kotlin.notes.ui.pages
 
 import androidx.lifecycle.ViewModel
-import com.sikaplun.gb.kotlin.notes.domain.repo.NotesListImpl
-import com.sikaplun.gb.kotlin.notes.domain.repository.Noteslist
+import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
+import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
+import java.util.*
 
 class NotesEditFragmentViewModel() : ViewModel() {
 
-    private var notesList:Noteslist = NotesListImpl.getNotesList()
+    private val noteDb = App.getInstance().getNotesDb()
+    private var notesList: NotesListRoom = NoteListRoomImpl(noteDb.noteDao())
     private lateinit var id: String
 
     fun onClickSaveButton(
@@ -21,29 +24,27 @@ class NotesEditFragmentViewModel() : ViewModel() {
         var isModifiedDate = true
 
         if (id.isEmpty()) {
-            createNote()
+            var title = titleEditText
+            if(titleEditText.isEmpty()){
+                title = createTitleIfEmptyTitle(detailEditText)
+            }
+            createNote(title, detailEditText)
             isModifiedDate = false
         }
 
-        if (isModifiedDate) {
-            if (!tempTitle.equals(notesList.getNote(id)?.title)
-                || !tempDetail.equals(notesList.getNote(id)?.detail)
-            ) {
-                notesList.getNote(id)?.setModifiedDate()
-            }
+        if (isModifiedDate && tempTitle != titleEditText) {
+            notesList.updateNote(id, titleEditText, detailEditText, Calendar.getInstance())
         }
 
-        if (tempTitle.isNotEmpty()) {
-            notesList.getNote(id)?.title = tempTitle
+        if (isModifiedDate && tempDetail != detailEditText) {
+            notesList.updateNote(id, titleEditText, detailEditText, Calendar.getInstance())
         }
 
-        if (tempDetail.isNotEmpty()) {
-            notesList.getNote(id)?.detail = tempDetail
-        }
-
-        createTitleIfEmptyTitle(titleEditText, detailEditText)
         removeNoteIfEmpty(titleEditText, detailEditText)
+    }
 
+    private fun createTitleIfEmptyTitle(detailEditText: String): String {
+        return if (detailEditText.length < 10) detailEditText else detailEditText.substring(0, 10)
     }
 
     private fun removeNoteIfEmpty(titleEditText: String, detailEditText: String) {
@@ -52,18 +53,10 @@ class NotesEditFragmentViewModel() : ViewModel() {
         }
     }
 
-    private fun createTitleIfEmptyTitle(titleEditText: String, detailEditText: String) {
-        if (titleEditText.isEmpty() && detailEditText.isNotEmpty()) {
-            notesList.getNote(id)?.title = if (detailEditText.length < 10)
-                detailEditText
-            else detailEditText.substring(0, 10)
-        }
-    }
-
-    private fun createNote() {
-        val newNote = NoteEntity()
+    private fun createNote(title: String, detail: String) {
+        val newNote = NoteEntity(title, detail)
         notesList.addNote(newNote)
-        id = newNote.id.toString()
+        id = newNote.id
     }
 
 }

@@ -1,6 +1,8 @@
 package com.sikaplun.gb.kotlin.notes.ui.adapter
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.sikaplun.gb.kotlin.notes.databinding.ItemNoteBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
@@ -31,9 +33,9 @@ class NoteViewHolder(binding: ItemNoteBinding, clickListener: NoteAdapter.Intera
             if (note.modifiedDate!![Calendar.DAY_OF_MONTH] == Calendar.getInstance()[Calendar.DAY_OF_MONTH]
             ) {
                 " изменено: сегодня в " + SimpleDateFormat("HH.mm")
-                    .format(Calendar.getInstance().time)
+                    .format(note.modifiedDate!!.time)
             } else " изменено: " + SimpleDateFormat("dd/MM/yyyy  HH.mm")
-                .format(note.createDate.time)
+                .format(note.modifiedDate!!.time)
         } else null
     }
 
@@ -43,3 +45,4 @@ class NoteViewHolder(binding: ItemNoteBinding, clickListener: NoteAdapter.Intera
     }
 
 }
+
