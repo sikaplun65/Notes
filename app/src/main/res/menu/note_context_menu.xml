@@ -6,8 +6,5 @@
     <item
         android:id="@+id/menu_edit_note"
         android:title="@string/text_menu_edit_note" />
-    <item
-        android:id="@+id/menu_share_note"
-        android:title="@string/text_menu_share_note" />
 
 </menu>

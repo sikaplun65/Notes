@@ -1,21 +1,20 @@
 package com.sikaplun.gb.kotlin.notes.ui.main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sikaplun.gb.kotlin.notes.R
 import com.sikaplun.gb.kotlin.notes.databinding.ActivityMainBinding
 import com.sikaplun.gb.kotlin.notes.ui.pages.NotesEditFragment.Companion.create
 import com.sikaplun.gb.kotlin.notes.ui.pages.NotesListFragment
-import com.sikaplun.gb.kotlin.notes.ui.pages.SettingsFragment
 import com.sikaplun.gb.kotlin.notes.ui.pages.SortNotesFragment
 
 
-class MainActivity : AppCompatActivity(), NotesListFragment.Controller {
+class MainActivity : AppCompatActivity(), NotesListFragment.Controller,
+    SortNotesFragment.SortChangeListener {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var notesListFragment: NotesListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +24,15 @@ class MainActivity : AppCompatActivity(), NotesListFragment.Controller {
 
     }
 
+
     private fun initNotesListFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             return
         }
+        notesListFragment = NotesListFragment()
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, NotesListFragment(), "NOTES_LIST_FRAGMENT")
+            .add(R.id.fragment_container, notesListFragment, "NOTES_LIST_FRAGMENT")
             .commit()
     }
 
@@ -43,44 +44,26 @@ class MainActivity : AppCompatActivity(), NotesListFragment.Controller {
             .commit()
     }
 
-    @SuppressLint("NonConstantResourceId")
     private fun initBottomNavigationMenu() {
         binding.bottomNavView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.setting_notes_nav_menu -> {
-                    val filesFragment =
-                        supportFragmentManager.findFragmentByTag("setting_notes_fragment")
-                    if (filesFragment == null) {
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(
-                                R.id.fragment_container,
-                                SettingsFragment(),
-                                "setting_notes_fragment"
-                            )
-                            .addToBackStack(null)
-                            .commit()
-                    }
-                    return@setOnItemSelectedListener true
-                }
-                R.id.sort_notes_nav_menu -> {
-                    val settingsFragment =
-                        supportFragmentManager.findFragmentByTag("sort_notes_fragment")
-                    if (settingsFragment == null) {
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(
-                                R.id.fragment_container,
-                                SortNotesFragment(),
-                                "sort_notes_fragment"
-                            )
-                            .addToBackStack(null)
-                            .commit()
-                    }
-                    return@setOnItemSelectedListener true
-                }
+
+            val settingsFragment =
+                supportFragmentManager.findFragmentByTag("sort_notes_fragment")
+            if (settingsFragment == null) {
+                val fragment = SortNotesFragment()
+                fragment.callbackSortType = this
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(
+                        R.id.fragment_container,
+                        fragment,
+                        "sort_notes_fragment"
+                    )
+                    .addToBackStack(null)
+                    .commit()
             }
-            false
+            return@setOnItemSelectedListener true
         }
     }
 
@@ -92,4 +75,8 @@ class MainActivity : AppCompatActivity(), NotesListFragment.Controller {
         addFragment(create())
     }
 
+    override fun sortChange(type: NotesListFragment.SortType) {
+        notesListFragment.sortNotesList(type)
+        supportFragmentManager.popBackStack()
+    }
 }

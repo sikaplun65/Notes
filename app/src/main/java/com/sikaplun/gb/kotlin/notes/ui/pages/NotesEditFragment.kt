@@ -8,15 +8,17 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.sikaplun.gb.kotlin.notes.R
 import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.databinding.FragmentNotesEditBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
-import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
 import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
 
 class NotesEditFragment : Fragment() {
     private lateinit var titleEditText: EditText
     private lateinit var detailEditText: EditText
+    private lateinit var locationOfNoteCreation: String
     private lateinit var saveButton: Button
     private val noteDb = App.getInstance().getNotesDb()
     private var notesList: NotesListRoom = NoteListRoomImpl(noteDb.noteDao())
@@ -59,7 +61,10 @@ class NotesEditFragment : Fragment() {
 
         setupListener()
         view.setOnLongClickListener { true }
+
     }
+
+
 
     private fun fillTextTitleAndTextDetail(note: NoteEntity) {
         titleEditText.setText(note.title)

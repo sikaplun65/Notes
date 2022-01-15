@@ -22,7 +22,7 @@ class NoteEntity {
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = NOTE_COLUMN_ID)
-    lateinit var id: String
+    var id: String = ""
 
 
     @ColumnInfo(name = NOTE_TITLE)
@@ -47,9 +47,5 @@ class NoteEntity {
 
     private fun generateId() {
         id = Calendar.getInstance().time.time.toString()
-    }
-
-    fun setModifiedDate() {
-        modifiedDate = Calendar.getInstance()
     }
 }
