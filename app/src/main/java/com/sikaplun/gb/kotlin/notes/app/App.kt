@@ -1,13 +1,13 @@
 package com.sikaplun.gb.kotlin.notes.app
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.sikaplun.gb.kotlin.notes.room.NoteRoomDb
 
 class App : Application() {
     companion object {
         lateinit var instance: App
+
         @JvmName("getInstance1")
         fun getInstance() = instance
 

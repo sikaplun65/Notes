@@ -14,7 +14,7 @@ class NoteListRoomImpl(private val noteDao: NoteDao) : NotesListRoom {
     }
 
     override fun updateNote(noteId: String, noteTitle: String, noteDetail: String, date: Calendar) {
-        noteDao.updateNote(noteId,noteTitle,noteDetail,date)
+        noteDao.updateNote(noteId, noteTitle, noteDetail, date)
     }
 
     override fun removeNote(note: NoteEntity) {
@@ -28,6 +28,6 @@ class NoteListRoomImpl(private val noteDao: NoteDao) : NotesListRoom {
 
     override fun sorByDateModifiedNotes(): List<NoteEntity> = noteDao.sorByDateModifiedNotes()
 
-    override fun searchNotes(str: String):List<NoteEntity> =  noteDao.searchNotes(str)
+    override fun searchNotes(str: String): List<NoteEntity> = noteDao.searchNotes(str)
 
 }
