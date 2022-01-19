@@ -1,8 +1,8 @@
 package com.sikaplun.gb.kotlin.notes.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sikaplun.gb.kotlin.notes.databinding.ItemNoteBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
@@ -12,10 +12,12 @@ class NoteAdapter(
     private var clickListener: InteractionListener
 ) : RecyclerView.Adapter<NoteViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
+
     fun setData(list: List<NoteEntity>) {
+        val diffCallback = NotesDiffCallback(this.list, list)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.list = list
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {

@@ -35,5 +35,4 @@ interface NoteDao {
 
     @Query("select*from $NOTE_TABLE where title like '%' || :str ||'%' or detail like '%'|| :str ||'%'")
     fun searchNotes(str: String): List<NoteEntity>
-
 }

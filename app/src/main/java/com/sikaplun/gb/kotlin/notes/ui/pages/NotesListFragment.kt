@@ -20,8 +20,8 @@ import com.sikaplun.gb.kotlin.notes.R
 import com.sikaplun.gb.kotlin.notes.app.App
 import com.sikaplun.gb.kotlin.notes.databinding.FragmentNotesListBinding
 import com.sikaplun.gb.kotlin.notes.domain.model.NoteEntity
-import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
 import com.sikaplun.gb.kotlin.notes.room.NoteListRoomImpl
+import com.sikaplun.gb.kotlin.notes.room.NotesListRoom
 import com.sikaplun.gb.kotlin.notes.ui.adapter.NoteAdapter
 
 class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
@@ -37,6 +37,7 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
 
     private var _binding: FragmentNotesListBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,7 +61,7 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
         initializationAddNewNoteButton()
         initializationRecyclerView(view)
         registerForContextMenu(recyclerView)
-        searchNotes()
+        notesSearch()
     }
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -73,7 +74,6 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
         when (item.itemId) {
             R.id.menu_delete_note -> deleteNoteAlertDialog()
             R.id.menu_edit_note -> onItemClick(selectedNotesItem)
-            R.id.menu_share_note -> Toast.makeText(activity, "Пункт меню в разработке", Toast.LENGTH_SHORT).show()
         }
         return super.onContextItemSelected(item)
     }
@@ -86,7 +86,6 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
             .setPositiveButton(R.string.text_yes) { dialog: DialogInterface?, id: Int ->
                 notesList.removeNote(selectedNotesItem)
                 adapter.setData(notesList.getNotes())
-                adapter.notifyDataSetChanged()
                 Snackbar.make(requireView(), R.string.text_note_deleted , Snackbar.LENGTH_LONG).show()
             }
             .setNegativeButton(R.string.text_no, null)
@@ -97,17 +96,17 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
         binding.newNoteButton.setOnClickListener { controller?.startNotesCreateFragment() }
     }
 
-    private fun searchNotes(){
+    private fun notesSearch() {
 
         val searchEditText = binding.searchEditText
         val clearButton = binding.searchEditTextClearButton
 
-        clearButton.setOnClickListener{
+        clearButton.setOnClickListener {
             searchEditText.text.clear()
             applyFilter(searchEditText)
         }
 
-        searchEditText.addTextChangedListener(object : TextWatcher{
+        searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -156,7 +155,21 @@ class NotesListFragment : Fragment(), NoteAdapter.InteractionListener {
     }
 
     override fun OnItemShortClick(item: NoteEntity?) {}
-    override fun OnItemLongClick(item: NoteEntity?): Boolean =false
+    override fun OnItemLongClick(item: NoteEntity?): Boolean = false
+
+    enum class SortType {
+        OldToNew,
+        NewToOld,
+        ByModifiedDate
+    }
+
+    fun sortNotesList(type: SortType) {
+        when (type) {
+            SortType.OldToNew -> adapter.setData(notesList.sortFromOldToNewNotes())
+            SortType.NewToOld -> adapter.setData(notesList.sortFromNewToOldNotes())
+            SortType.ByModifiedDate -> adapter.setData(notesList.sorByDateModifiedNotes())
+        }
+    }
 
 }
 
