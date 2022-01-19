@@ -8,6 +8,7 @@ import com.sikaplun.gb.kotlin.notes.databinding.ActivityMainBinding
 import com.sikaplun.gb.kotlin.notes.ui.pages.NotesEditFragment.Companion.create
 import com.sikaplun.gb.kotlin.notes.ui.pages.NotesListFragment
 import com.sikaplun.gb.kotlin.notes.ui.pages.SortNotesFragment
+import com.sikaplun.gb.kotlin.notes.ui.pages.SpanExampleFragment
 
 
 class MainActivity : AppCompatActivity(), NotesListFragment.Controller,
@@ -44,28 +45,50 @@ class MainActivity : AppCompatActivity(), NotesListFragment.Controller,
             .commit()
     }
 
+
     private fun initBottomNavigationMenu() {
         binding.bottomNavView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.span_example_nav_menu-> {
+                    val filesFragment =
+                        supportFragmentManager.findFragmentByTag("span_example_fragment")
+                    if (filesFragment == null) {
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(
+                                R.id.fragment_container,
+                                SpanExampleFragment(),
+                                "span_example_fragment"
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                    return@setOnItemSelectedListener true
+                }
+                R.id.sort_notes_nav_menu -> {
+                    val settingsFragment =
+                        supportFragmentManager.findFragmentByTag("sort_notes_fragment")
+                    if (settingsFragment == null) {
+                        val fragment = SortNotesFragment()
+                        fragment.callbackSortType = this
 
-            val settingsFragment =
-                supportFragmentManager.findFragmentByTag("sort_notes_fragment")
-            if (settingsFragment == null) {
-                val fragment = SortNotesFragment()
-                fragment.callbackSortType = this
-
-                supportFragmentManager
-                    .beginTransaction()
-                    .add(
-                        R.id.fragment_container,
-                        fragment,
-                        "sort_notes_fragment"
-                    )
-                    .addToBackStack(null)
-                    .commit()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .add(
+                                R.id.fragment_container,
+                                fragment,
+                                "sort_notes_fragment"
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                    return@setOnItemSelectedListener true
+                }
             }
-            return@setOnItemSelectedListener true
+            false
         }
     }
+
 
     override fun startNotesEditFragment(id: String?) {
         addFragment(create(id))
